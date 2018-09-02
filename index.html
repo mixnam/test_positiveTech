@@ -7,8 +7,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
 	<script type="text/javascript" src="./main.js"></script>
 	<script type="text/javascript">
-		const currencyList = ['USD', //доллар
-						      'EUR', //евро
+		const currencyList = ['EUR', //евро
 						      'RUB', //рубль
 						      'GBP', //фунт
 						  	  'CNY'  //китайская йена
@@ -19,28 +18,25 @@
 			{price: 45},
 			{price: 67},
 			{price: 1305}
-		]		
+		]	
 
-		let currency = 'USD'
+		var currency = 'USD'	
 
-		let newCerryency = 'RUB'
+		var total = bucket.reduce(function(accum, item){return accum+item.price}, 0)
 
-		convertCurrency(currency, newCerryency).then((resp)=>{
-			let key = currency + '_' + newCerryency
-			currency = 'EUR'
-			let change_coef = JSON.parse(resp)[key].val
+		var result = {}
+		result[currency] = total.toFixed(2)
 
-			bucket.forEach((a)=>{
-				a.price = (a.price * change_coef).toFixed(2)
+		currencyList.forEach((newCerryency)=>{
+			getCurrencyCoef(currency, newCerryency).then((coef)=>{
+			
+				result[newCerryency] = (total * coef).toFixed(2)
+
+			}).catch((resp)=>{
+				console.log(resp)
 			})
-
-			console.log(bucket)
-		}).catch((resp)=>{
-			console.log(resp)
 		})
-	</script>
-	<script type="text/javascript">
-		
+
 	</script>
 </body>
 </html>

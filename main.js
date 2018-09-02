@@ -22,8 +22,17 @@ function makeRequest(method, url){
 	})
 }
 
-function convertCurrency(baseCurrency, convertCurrency){ 
+function getCurrencyCoef(baseCurrency, convertCurrency){ 
 	 return makeRequest('GET',
 						`http://free.currencyconverterapi.com/api/v5/convert?\
-						q=${baseCurrency}_${convertCurrency}&compact=y`)
+						q=${baseCurrency}_${convertCurrency}&compact=y`).then(
+							(resp)=>{
+								let value = JSON.parse(resp)
+								return value[baseCurrency + '_' + convertCurrency].val
+							}
+						).catch(
+							(resp)=>{
+								return resp
+							}
+						)
 }
