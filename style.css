@@ -1,0 +1,27 @@
+.bucket {
+  width: 350px;
+  display: inline-block;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+}
+
+.left {
+  font-style: red;
+  display: inline-block;
+  width: 130px;
+  padding-left: 20px;
+  padding-bottom: 15px;
+}
+
+.right {
+  display: inline-block;  
+}
+
+.tab {
+  font-weight: bold;
+}
+
+.total-sum {
+  display: inline-block;
+}

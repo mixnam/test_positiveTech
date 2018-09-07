@@ -1,42 +1,31 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-</head>
-<body>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
-	<script type="text/javascript" src="./main.js"></script>
-	<script type="text/javascript">
-		const currencyList = ['EUR', //евро
-						      'RUB', //рубль
-						      'GBP', //фунт
-						  	  'CNY'  //китайская йена
-						  	  ]
-
-		var bucket = [
-			{price: 20},
-			{price: 45},
-			{price: 67},
-			{price: 1305}
-		]	
-
-		var currency = 'USD'	
-
-		var total = bucket.reduce(function(accum, item){return accum+item.price}, 0)
-
-		var result = {}
-		result[currency] = total.toFixed(2)
-
-		currencyList.forEach((newCerryency)=>{
-			getCurrencyCoef(currency, newCerryency).then((coef)=>{
-			
-				result[newCerryency] = (total * coef).toFixed(2)
-
-			}).catch((resp)=>{
-				console.log(resp)
-			})
-		})
-
-	</script>
-</body>
+  <head>
+      <meta charset="utf-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+      <script src="main.js"></script>
+      <link rel="stylesheet" href="style.css">
+  </head>
+  <body ng-app='TestApp'>
+    <div ng-controller='TestAppController as tac' ng-init='tac.recalcTotal()'>
+      <div class='bucket'>
+        <h1 align='center'>Корзина товаров</h1>
+        <div class='left tab'>Номер товара</div>
+        <biv class='right tab'>Стоимость ({{tac.currency}})</biv>
+        <div ng-repeat='item in tac.selectedCart track by $index'>
+            <div class='left'>{{$index + 1}}</div>
+            <input class='right' ng-model='item.price'>
+        </div>
+        <button ng-click='tac.recalcTotal()'>Посчитать сумму</button>
+      </div>
+      <div class='total-sum'>
+        <h1 align='center'>Cумма</h1>
+        <div class='left tab'>Валюта</div>
+        <div class='right tab'>Сумма</div>
+        <div ng-repeat='(currency,total) in tac.totalCartPrice track by currency'>
+          <div class='left'>{{currency}}</div>
+          <div class='right'>{{total}}</div>
+        </div>        
+      </div>
+    </div>
+  </body>
 </html>
